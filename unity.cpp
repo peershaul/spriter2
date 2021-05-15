@@ -1,4 +1,6 @@
 #include "vendor/spriter/spriter.cpp"
 #include "vendor/spriter/utils/logger.cpp"
 #include "vendor/spriter/visual/display.cpp"
+#include "vendor/spriter/visual/drawing/index_buffer.cpp"
+#include "vendor/spriter/visual/drawing/vertex_buffer.cpp"
 #include "src/main.cpp"

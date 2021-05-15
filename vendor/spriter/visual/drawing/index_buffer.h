@@ -1,9 +1,23 @@
 #pragma once
 
-#include "buffer.h"
+#include <GL/glew.h>
 
-class IndexBuffer : public Buffer<unsigned int>{
-public:
-    void putData(unsigned int data[], bool dynamic);
-    void updateData(unsigned int data[]);
+class IndexBuffer{
+    private:
+        GLuint id;
+        unsigned int* data;
+        unsigned int length;
+        static GLuint bound;
+
+    public:
+        IndexBuffer();
+
+        void putData(unsigned int* data, unsigned int length, bool dynamic);
+        void bind();
+
+        static void s_bind(GLuint id);
+        static void s_bind(IndexBuffer* ib);
+        static void ubind();
+
+        static GLuint get_bound(){ return bound; }
 };
