@@ -30,7 +30,7 @@ namespace spriter{
 
         unsigned int indices[] = {
 
-    }
+    };
 
         loop();
 
