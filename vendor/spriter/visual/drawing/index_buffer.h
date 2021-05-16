@@ -12,7 +12,7 @@ class IndexBuffer{
     public:
         IndexBuffer();
 
-        void putData(unsigned int* data, unsigned int length, bool dynamic);
+        void putData(unsigned int* data, unsigned int length);
         void bind();
 
         static void s_bind(GLuint id);

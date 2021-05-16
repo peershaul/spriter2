@@ -20,14 +20,14 @@ IndexBuffer::IndexBuffer(){
     glGenBuffers(1, &id);
 }
 
-void IndexBuffer::putData(unsigned int* data, unsigned int length, bool dynamic){
+void IndexBuffer::putData(unsigned int* data, unsigned int length){
     this->data = data;
     this->length = length;
 
     GLuint last_bound = IndexBuffer::get_bound();
     this->bind();
 
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, length, data, dynamic? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, length, data, GL_STATIC_DRAW);
 
     IndexBuffer::s_bind(last_bound);
 }
