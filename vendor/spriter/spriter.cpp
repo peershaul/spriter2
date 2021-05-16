@@ -3,25 +3,28 @@
 #include "utils/error.h"
 #include "visual/display.h"
 #include "visual/buffers/vertex.h"
+#include "visual/buffers/index.h"
+#include "visual/buffers/bunch.h"
 
 #include <GL/glew.h>
+#include <vector>
 
 namespace spriter{
 
     static Display* dis;
-    static const unsigned int positions_length = 6,
+    static const unsigned int positions_length = 15,
         indices_length = 3;
 
     static float positions[positions_length] = {
-    -0.5f, -0.5f,
-     0.0f,  0.5f,
-     0.5f, -0.5f
+    // Position      Color
+    -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,
+     0.0f,  0.5f,   0.0f, 1.0f, 0.0f,
+     0.5f, -0.5f,   0.0f, 0.0f, 1.0f
 };
 
     static unsigned int indices[indices_length] = {
         0, 2, 1,
-    };
-
+};
 
     bool init(){
         INFO("Hello world from the spriter engine");
@@ -33,13 +36,16 @@ namespace spriter{
         vb->putData(positions, positions_length, false);
         vb->bind();
 
-        unsigned int index_buffer;
-        glGenBuffers(1, &index_buffer);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_length * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+        IndexBuffer* ib = new IndexBuffer();
+        ib->putData(indices, indices_length);
+        ib->bind();
 
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+        std::vector<unsigned int> layout = { 2 };
+
+        GLE(glEnableVertexAttribArray(0));
+        GLE(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0));
+        GLE(glEnableVertexAttribArray(1));
+        GLE(glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (const void*) (2 * sizeof(float)) ));
 
         loop();
 
