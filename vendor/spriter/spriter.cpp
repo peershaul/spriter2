@@ -3,7 +3,6 @@
 #include "utils/error.h"
 #include "visual/display.h"
 
-#include <glm/glm.hpp>
 #include <GL/glew.h>
 
 namespace spriter{
@@ -14,8 +13,8 @@ namespace spriter{
 
     static float positions[positions_length] = {
     -0.5f, -0.5f,
-     0.5f, -0.5f,
-    -0.5f,  0.5f
+     0.0f,  0.5f,
+     0.5f, -0.5f
 };
 
     static unsigned int indices[indices_length] = {
@@ -27,7 +26,21 @@ namespace spriter{
         INFO("Hello world from the spriter engine");
 
         dis = new Display(800, 600, "Hello world");
-        dis->changeClearColor(glm::vec4(0.3f, 0.7f, 0.9f, 1.0f));
+        dis->changeClearColor(0.3f, 0.7f, 0.9f, 1.0f);
+
+        // Create buffers
+        unsigned int buffer;
+        glGenBuffers(1, &buffer);
+        glBindBuffer(GL_ARRAY_BUFFER, buffer);
+        glBufferData(GL_ARRAY_BUFFER, positions_length * sizeof(float), positions, GL_STATIC_DRAW);
+
+        unsigned int index_buffer;
+        glGenBuffers(1, &index_buffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_length * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
 
         loop();
 
@@ -37,6 +50,8 @@ namespace spriter{
     void loop(){
         while(!dis->isClosed()){
             dis->clear();
+
+            GLE(glDrawElements(GL_TRIANGLES, indices_length, GL_INT, nullptr))
 
             dis->update();
         }
