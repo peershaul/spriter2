@@ -2,6 +2,7 @@
 #include "utils/logger.h"
 #include "utils/error.h"
 #include "visual/display.h"
+#include "visual/buffers/vertex.h"
 
 #include <GL/glew.h>
 
@@ -28,11 +29,9 @@ namespace spriter{
         dis = new Display(800, 600, "Hello world");
         dis->changeClearColor(0.3f, 0.7f, 0.9f, 1.0f);
 
-        // Create buffers
-        unsigned int buffer;
-        glGenBuffers(1, &buffer);
-        glBindBuffer(GL_ARRAY_BUFFER, buffer);
-        glBufferData(GL_ARRAY_BUFFER, positions_length * sizeof(float), positions, GL_STATIC_DRAW);
+        VertexBuffer* vb = new VertexBuffer();
+        vb->putData(positions, positions_length, false);
+        vb->bind();
 
         unsigned int index_buffer;
         glGenBuffers(1, &index_buffer);
@@ -51,7 +50,7 @@ namespace spriter{
         while(!dis->isClosed()){
             dis->clear();
 
-            GLE(glDrawElements(GL_TRIANGLES, indices_length, GL_INT, nullptr))
+            GLE(glDrawElements(GL_TRIANGLES, indices_length, GL_UNSIGNED_INT, nullptr));
 
             dis->update();
         }

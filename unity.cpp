@@ -2,4 +2,5 @@
 #include "vendor/spriter/utils/logger.cpp"
 #include "vendor/spriter/utils/error.cpp"
 #include "vendor/spriter/visual/display.cpp"
+#include "vendor/spriter/visual/buffers/vertex.cpp"
 #include "src/main.cpp"

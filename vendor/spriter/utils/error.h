@@ -2,7 +2,7 @@
 
 #define GLE(func) gle::clear();                 \
     func;                                       \
-    gle::check();
+    gle::check()
 
 namespace gle{
     void clear();
