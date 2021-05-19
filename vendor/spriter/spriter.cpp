@@ -2,6 +2,7 @@
 #include "utils/logger.h"
 #include "utils/error.h"
 #include "visual/display.h"
+#include "visual/shader.h"
 #include "visual/buffers/vertex.h"
 #include "visual/buffers/index.h"
 #include "visual/buffers/bunch.h"
@@ -46,6 +47,9 @@ namespace spriter{
         GLE(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0));
         GLE(glEnableVertexAttribArray(1));
         GLE(glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (const void*) (2 * sizeof(float)) ));
+
+        Shader* shader = new Shader("resources/shaders/basic.glsl");
+        shader->bind();
 
         loop();
 
