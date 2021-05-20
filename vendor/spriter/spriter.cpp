@@ -33,20 +33,16 @@ namespace spriter{
         dis = new Display(800, 600, "Hello world");
         dis->changeClearColor(0.3f, 0.7f, 0.9f, 1.0f);
 
+        std::vector<unsigned int> layout = {2, 3};
+
         VertexBuffer* vb = new VertexBuffer();
         vb->putData(positions, positions_length, false);
-        vb->bind();
 
         IndexBuffer* ib = new IndexBuffer();
         ib->putData(indices, indices_length);
-        ib->bind();
 
-        std::vector<unsigned int> layout = { 2 };
-
-        GLE(glEnableVertexAttribArray(0));
-        GLE(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0));
-        GLE(glEnableVertexAttribArray(1));
-        GLE(glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (const void*) (2 * sizeof(float)) ));
+        BufferBunch* buff = BufferBunch::gen(vb, ib, layout);
+        buff->bind();
 
         Shader* shader = new Shader("resources/shaders/basic.glsl");
         shader->bind();

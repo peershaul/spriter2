@@ -11,7 +11,7 @@ namespace logger{
             return;
         }
 
-        char buff[512];
+        char buff[4096];
         va_list args;
         va_start(args, fmt);
         vsprintf(buff, fmt, args);

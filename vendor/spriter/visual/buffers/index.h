@@ -15,9 +15,12 @@ class IndexBuffer{
         void bind() { s_bind(this); }
         void unbind() { ubind(); }
 
+        unsigned int get_id() { return id; }
+
         static void s_bind(unsigned int id);
         static void s_bind(IndexBuffer* ib) { s_bind(ib->id); }
-        static void ubind() { s_bind( (unsigned int) 0 ); }
+        static void ubind() { s_bind( (unsigned int) 0  ); }
 
         static unsigned int get_bound(){ return bound; }
+
 };

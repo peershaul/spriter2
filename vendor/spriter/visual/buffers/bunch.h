@@ -7,25 +7,30 @@
 
 class BufferBunch{
     private:
-        static std::vector<BufferBunch*> bunches;
-        static unsigned int bound;
-
-        BufferBunch(VertexBuffer* vb, IndexBuffer* ib, std::vector<unsigned int>& layout);
         VertexBuffer* vb;
         IndexBuffer* ib;
         std::vector<unsigned int> layout;
 
-        static unsigned int find(BufferBunch* buff);
+        BufferBunch(VertexBuffer* vb, IndexBuffer* ib, const std::vector<unsigned int>& layout);
 
+        static std::vector<BufferBunch*> bunches;
+        static unsigned int bound;
     public:
-        static BufferBunch* gen(VertexBuffer* vb, IndexBuffer* ib, std::vector<unsigned int>& layout);
-        bool operator==(const BufferBunch& buff);
+        static BufferBunch* gen(VertexBuffer* vb, IndexBuffer* ib, const std::vector<unsigned int>& layout);
 
-        void bind() { s_bind(this); }
+        static void s_bind(unsigned int index);
+        static void s_bind(BufferBunch* bunch) { s_bind(find(bunch)); }
+        static void ubind();
+
+        void bind(){ s_bind(this); }
         void unbind() { ubind(); }
 
-        static void s_bind(BufferBunch* buff);
-        static void s_bind(unsigned int index);
-        static void ubind(){ s_bind(nullptr); }
+        static std::vector<BufferBunch*> get_bunches(){
+            std::vector<BufferBunch*> buffs = {};
+            for(BufferBunch* buff : bunches)
+                buffs.push_back(buff);
+            return buffs;
+        }
 
+        static unsigned int find(const BufferBunch* bunch);
 };
