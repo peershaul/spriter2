@@ -8,6 +8,6 @@
 
 #include "vendor/spriter/visual/buffers/vertex.cpp"
 #include "vendor/spriter/visual/buffers/index.cpp"
-#include "vendor/spriter/visual/buffers/bunch.cpp"
+#include "vendor/spriter/visual/buffers/array.cpp"
 
 #include "src/main.cpp"

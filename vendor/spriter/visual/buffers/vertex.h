@@ -13,8 +13,6 @@ class VertexBuffer{
         void bind() { s_bind(this); }
         void unbind() { ubind(); }
 
-        unsigned int get_id(){ return id; }
-
         static void s_bind(unsigned int id);
         static void s_bind(VertexBuffer* vb) { s_bind(vb->id); }
         static void ubind() { s_bind( (unsigned int) 0 ); }

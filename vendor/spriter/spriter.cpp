@@ -5,7 +5,7 @@
 #include "visual/shader.h"
 #include "visual/buffers/vertex.h"
 #include "visual/buffers/index.h"
-#include "visual/buffers/bunch.h"
+#include "visual/buffers/array.h"
 
 #include <GL/glew.h>
 #include <vector>
@@ -27,13 +27,12 @@ namespace spriter{
         0, 2, 1,
 };
 
+    static VertexArray* va;
     bool init(){
         INFO("Hello world from the spriter engine");
 
         dis = new Display(800, 600, "Hello world");
         dis->changeClearColor(0.3f, 0.7f, 0.9f, 1.0f);
-
-        std::vector<unsigned int> layout = {2, 3};
 
         VertexBuffer* vb = new VertexBuffer();
         vb->putData(positions, positions_length, false);
@@ -41,8 +40,9 @@ namespace spriter{
         IndexBuffer* ib = new IndexBuffer();
         ib->putData(indices, indices_length);
 
-        BufferBunch* buff = BufferBunch::gen(vb, ib, layout);
-        buff->bind();
+        std::vector<unsigned int> layout = { 2, 3 };
+
+        va = new VertexArray(vb, ib, layout);
 
         Shader* shader = new Shader("resources/shaders/basic.glsl");
         shader->bind();
@@ -56,7 +56,9 @@ namespace spriter{
         while(!dis->isClosed()){
             dis->clear();
 
+            va->bind();
             GLE(glDrawElements(GL_TRIANGLES, indices_length, GL_UNSIGNED_INT, nullptr));
+            va->unbind();
 
             dis->update();
         }
